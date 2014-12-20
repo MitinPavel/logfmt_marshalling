@@ -67,6 +67,11 @@ describe ::LogfmtMarshalling::Marshaller do
     expect(actual).to eq('key=""')
   end
 
+  it 'serializes a whitespace string' do
+    actual = marshal 'key' => ' '
+    expect(actual).to eq('key=" "')
+  end
+
   def marshal(data)
     described_class.new.marshal data
   end
