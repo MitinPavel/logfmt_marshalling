@@ -77,6 +77,10 @@ describe ::LogfmtMarshalling::Marshaller do
     expect(actual).to eq('key=false')
   end
 
+  it 'serializes a quoted false as a string' do
+    actual = marshal 'key' => 'false'
+    expect(actual).to eq('key="false"')
+  end
 
   it 'serializes a positive integer' do
     actual = marshal 'key' => 234
@@ -108,7 +112,7 @@ describe ::LogfmtMarshalling::Marshaller do
   end
 
   it 'serializes an exponential float' do
-    actual = marshal 'key' =>  2.342342342342344e+18
+    actual = marshal 'key' => 2.342342342342344e+18
     expect(actual).to eq('key=2.342342342342344e+18')
   end
 
