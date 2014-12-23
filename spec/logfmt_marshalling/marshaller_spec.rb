@@ -72,6 +72,11 @@ describe ::LogfmtMarshalling::Marshaller do
     expect(actual).to eq('key=" "')
   end
 
+  it "serializes false value" do
+    actual = marshal 'key' => false
+    expect(actual).to eq('key=false')
+  end
+
   def marshal(data)
     described_class.new.marshal data
   end
