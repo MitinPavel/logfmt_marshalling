@@ -72,9 +72,44 @@ describe ::LogfmtMarshalling::Marshaller do
     expect(actual).to eq('key=" "')
   end
 
-  it "serializes false value" do
+  it "serializes the false value" do
     actual = marshal 'key' => false
     expect(actual).to eq('key=false')
+  end
+
+
+  it 'serializes a positive integer' do
+    actual = marshal 'key' => 234
+    expect(actual).to eq('key=234')
+  end
+
+  it 'serializes a negative integer' do
+    actual = marshal 'key' => -3428
+    expect(actual).to eq('key=-3428')
+  end
+
+  it 'serializes a bignum' do
+    bignum = 9999999999999999999
+    expect(bignum).to be_a(Bignum)
+
+    actual = marshal 'key' => bignum
+
+    expect(actual).to eq('key=9999999999999999999')
+  end
+
+  it 'serializes a positive float' do
+    actual = marshal 'key' => 3.14
+    expect(actual).to eq('key=3.14')
+  end
+
+  it 'serializes a negative float' do
+    actual = marshal 'key' => -0.9934
+    expect(actual).to eq('key=-0.9934')
+  end
+
+  it 'serializes an exponential float' do
+    actual = marshal 'key' =>  2.342342342342344e+18
+    expect(actual).to eq('key=2.342342342342344e+18')
   end
 
   def marshal(data)
