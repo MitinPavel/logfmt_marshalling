@@ -116,6 +116,23 @@ describe ::LogfmtMarshalling::Marshaller do
     expect(actual).to eq('key=2.342342342342344e+18')
   end
 
+  %w(
+      0
+      1
+      -1
+      123.4
+      -3.14
+      1.0e6
+      1.2e-3
+      4E20
+      4e+20
+  ).each do |quoted_float|
+    it %{serializes a quoted float ("#{quoted_float}") as a string} do
+      actual = marshal 'key' => quoted_float
+      expect(actual).to eq(%{key="#{quoted_float}"})
+    end
+  end
+
   def marshal(data)
     described_class.new.marshal data
   end
