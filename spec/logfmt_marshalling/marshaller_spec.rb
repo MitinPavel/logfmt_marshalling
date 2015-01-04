@@ -87,6 +87,11 @@ describe ::LogfmtMarshalling::Marshaller do
     expect(actual).to eq('foo=bar a=14 baz="hello kitty" ƒ=2h3s cool%story=bro f %^asdf')
   end
 
+  it 'serializes Ruby Symbol objects as Strings' do
+    actual = marshal key: :value
+    expect(actual).to eq('key=value')
+  end
+
   it 'serializes a positive integer' do
     actual = marshal 'key' => 234
     expect(actual).to eq('key=234')
