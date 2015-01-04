@@ -43,6 +43,7 @@ module LogfmtMarshalling
       case value
         when '' then '""'
         when 'false' then '"false"'
+        when 'true' then '"true"'
         when /\d/ then handle_string_with_number(value)
       end
     end

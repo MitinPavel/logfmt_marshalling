@@ -6,22 +6,47 @@ describe ::LogfmtMarshalling::Marshaller do
     expect(actual).to eq('')
   end
 
-  it 'drops true value' do
+  it 'serializes an empty string' do
+    actual = marshal 'key' => ''
+    expect(actual).to eq('key=""')
+  end
+
+  it 'serializes a whitespace string' do
+    actual = marshal 'key' => ' '
+    expect(actual).to eq('key=" "')
+  end
+
+  it 'drops the TrueClass instance value' do
     actual = marshal 'key' => true
     expect(actual).to eq('key')
   end
 
-  it 'serializes multiple single keys' do
-    actual = marshal 'key1' => true, 'key2' => true
-    expect(actual).to eq('key1 key2')
+  it "serializes the FalseClass instance value" do
+    actual = marshal 'key' => false
+    expect(actual).to eq('key=false')
   end
 
-  it 'serializes an unquoted value' do
+  it 'serializes a quoted true as a string' do
+    actual = marshal 'key' => 'true'
+    expect(actual).to eq('key="true"')
+  end
+
+  it 'serializes a quoted false as a string' do
+    actual = marshal 'key' => 'false'
+    expect(actual).to eq('key="false"')
+  end
+
+  it 'serializes a single key-value pair' do
     actual = marshal 'key' => 'value'
     expect(actual).to eq('key=value')
   end
 
-  it 'preserves order in serialized pairs' do
+  it 'serializes multiple key-value pairs' do
+    actual = marshal 'key1' => true, 'key2' => true
+    expect(actual).to eq('key1 key2')
+  end
+
+  it 'preserves order of serialized pairs' do
     actual = marshal 'key1' => 'value1', 'key2' => 'value2'
     expect(actual).to eq('key1=value1 key2=value2')
   end
@@ -31,7 +56,7 @@ describe ::LogfmtMarshalling::Marshaller do
     expect(actual).to eq('key1=value1 key2')
   end
 
-  it 'serializes mixed pairs whatever the order' do
+  it 'preserves order of  mixed single/non-single pairs' do
     actual = marshal 'key1' => true, 'key2' => 'value2'
     expect(actual).to eq('key1 key2=value2')
   end
@@ -60,26 +85,6 @@ describe ::LogfmtMarshalling::Marshaller do
                      'f' => true,
                      '%^asdf' => true
     expect(actual).to eq('foo=bar a=14 baz="hello kitty" ƒ=2h3s cool%story=bro f %^asdf')
-  end
-
-  it 'serializes an empty string' do
-    actual = marshal 'key' => ''
-    expect(actual).to eq('key=""')
-  end
-
-  it 'serializes a whitespace string' do
-    actual = marshal 'key' => ' '
-    expect(actual).to eq('key=" "')
-  end
-
-  it "serializes the false value" do
-    actual = marshal 'key' => false
-    expect(actual).to eq('key=false')
-  end
-
-  it 'serializes a quoted false as a string' do
-    actual = marshal 'key' => 'false'
-    expect(actual).to eq('key="false"')
   end
 
   it 'serializes a positive integer' do
@@ -127,7 +132,7 @@ describe ::LogfmtMarshalling::Marshaller do
       4E20
       4e+20
   ).each do |quoted_float|
-    it %{serializes a quoted float ("#{quoted_float}") as a string} do
+    it %{serializes a quoted number ("#{quoted_float}") as a string} do
       actual = marshal 'key' => quoted_float
       expect(actual).to eq(%{key="#{quoted_float}"})
     end
