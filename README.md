@@ -1,6 +1,8 @@
 # LogfmtMarshalling
 
-TODO: Write a gem description
+A Ruby gem for emitting [logfmt logging format](https://brandur.org/logfmt).
+
+logfmt (as a key-value logging format) is one flavor of [structured logging](http://gregoryszorc.com/blog/category/logging/).
 
 ## Installation
 
@@ -18,11 +20,16 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+> require 'logfmt_marshalling'
+=> true
+> LogfmtMarshalling.marshal method: 'get', path: '/', status: 200
+=> "method=get path=/ status=200"
+```
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/logfmt_marshalling/fork )
+1. Fork it ( https://github.com/MitinPavel/logfmt_marshalling/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
