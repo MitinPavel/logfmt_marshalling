@@ -1,5 +1,7 @@
 # LogfmtMarshalling
 
+[![Build Status](https://travis-ci.org/MitinPavel/logfmt_marshalling.svg?branch=master)](https://travis-ci.org/MitinPavel/logfmt_marshalling)
+
 A Ruby gem for emitting [logfmt logging format](https://brandur.org/logfmt).
 
 logfmt (as a key-value logging format) is one flavor of [structured logging](http://gregoryszorc.com/blog/category/logging/).
